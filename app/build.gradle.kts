@@ -29,9 +29,9 @@ dependencies {
     implementation("io.javalin:javalin-bundle:6.2.0")
     implementation("io.javalin:javalin-rendering:6.1.6")
     //БД
+    implementation("org.postgresql:postgresql:42.5.4")
     implementation("com.h2database:h2:2.2.224")
     implementation("com.zaxxer:HikariCP:5.1.0")
-    implementation("org.postgresql:postgresql:42.7.3")
 
 }
 

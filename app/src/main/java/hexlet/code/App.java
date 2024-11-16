@@ -45,7 +45,7 @@ public class App {
         var sql = readResourceFile("schema.sql");
 
         try (var connection = dataSource.getConnection();
-        var statement = connection.createStatement()) {
+            var statement = connection.createStatement()) {
             statement.execute(sql);
         }
 

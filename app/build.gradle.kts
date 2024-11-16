@@ -22,7 +22,7 @@ dependencies {
     //lombok
     compileOnly("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok:1.18.34")
-    //javalin
+    //javalin и jte
     implementation("gg.jte:jte:3.1.12")
     implementation("org.slf4j:slf4j-simple:2.0.13")
     implementation("io.javalin:javalin:6.2.0")

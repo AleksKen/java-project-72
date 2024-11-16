@@ -31,6 +31,8 @@ dependencies {
     //БД
     implementation("com.h2database:h2:2.2.224")
     implementation("com.zaxxer:HikariCP:5.1.0")
+    implementation("org.postgresql:postgresql:42.7.3")
+
 }
 
 application {

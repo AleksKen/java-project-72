@@ -28,6 +28,9 @@ dependencies {
     implementation("io.javalin:javalin:6.2.0")
     implementation("io.javalin:javalin-bundle:6.2.0")
     implementation("io.javalin:javalin-rendering:6.1.6")
+    //БД
+    implementation("com.h2database:h2:2.2.224")
+    implementation("com.zaxxer:HikariCP:5.1.0")
 }
 
 application {

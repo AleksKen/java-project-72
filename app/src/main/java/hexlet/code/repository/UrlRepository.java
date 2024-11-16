@@ -30,7 +30,7 @@ public class UrlRepository extends BaseRepository {
     public static Optional<Url> search(String name) throws SQLException {
         var sql = "SELECT * FROM urls WHERE name = ?";
         try (var connection = dataSource.getConnection();
-        var statement = connection.prepareStatement(sql)) {
+             var statement = connection.prepareStatement(sql)) {
             statement.setString(1, name);
             var resUrls = statement.executeQuery();
             if (resUrls.next()) {

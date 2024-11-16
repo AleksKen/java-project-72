@@ -44,28 +44,24 @@ public class UrlsController {
             var name = "";
             if (port == -1) {
                 name = String.format("%s://%s", protocol, host);
-            }
-            else {
+            } else {
                 name = String.format("%s://%s:%d", protocol, host, port);
             }
             if (UrlRepository.search(name).isEmpty()) {
                 Date currentDate = new Date();
                 Timestamp timestamp = new Timestamp(currentDate.getTime());
                 UrlRepository.save(new Url(name, timestamp));
-            }
-            else {
+            } else {
                 throw new SQLException("Страница уже существует");
             }
             context.sessionAttribute("flash", "Страница успешно добавлена");
             context.sessionAttribute("flash-type", "success");
             context.redirect(NamedRoutes.urlsPath());
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             context.sessionAttribute("flash", e.getMessage());
             context.sessionAttribute("flash-type", "info");
             context.redirect(NamedRoutes.urlsPath());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             context.sessionAttribute("flash", "Некорректный URL");
             context.sessionAttribute("flash-type", "danger");
             context.redirect(NamedRoutes.rootPath());

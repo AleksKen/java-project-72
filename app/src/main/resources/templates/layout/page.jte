@@ -1,6 +1,8 @@
 @import hexlet.code.util.NamedRoutes
 @import gg.jte.Content
+@import hexlet.code.dto.BasePage
 @param Content content
+@param BasePage page = null
 
 <!doctype html>
 <html lang="ru">
@@ -18,7 +20,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="${NamedRoutes.rootPath()}">Анализатор страниц</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -29,6 +32,24 @@
         </div>
     </div>
 </nav>
+@if(page != null && page.getFlash() != null && page.getFlashType() != null)
+    @if(page.getFlashType().equals("info"))
+        <div class="rounded-0 m-0 alert alert-dismissible fade show alert-info" role="alert">
+            <p class="m-0">${page.getFlash()}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @elseif(page.getFlashType().equals("danger"))
+        <div class="rounded-0 m-0 alert alert-dismissible fade show alert-danger" role="alert">
+            <p class="m-0">${page.getFlash()}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @elseif(page.getFlashType().equals("success"))
+        <div class="rounded-0 m-0 alert alert-dismissible fade show alert-success" role="alert">
+            <p class="m-0">${page.getFlash()}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+@endif
 ${content};
 </body>
 </html>

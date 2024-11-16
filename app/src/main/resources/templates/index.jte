@@ -1,4 +1,9 @@
-@template.layout.page(content = @`
+@import hexlet.code.dto.MainPage
+@param MainPage page
+
+@template.layout.page(
+page = page,
+content = @`
     <main class="flex-grow-1">
     <section>
         <div class="container-fluid bg-dark p-5">

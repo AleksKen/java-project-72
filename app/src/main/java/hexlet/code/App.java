@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
+import hexlet.code.controller.UrlsController;
 import hexlet.code.repository.BaseRepository;
 import hexlet.code.util.NamedRoutes;
 import io.javalin.Javalin;
@@ -16,6 +17,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
+
 
 public class App {
     public static void main(String[] args) throws IOException, SQLException {
@@ -69,7 +71,11 @@ public class App {
 //            ctx.contentType("text/html; charset=utf-8");
 //        });
 
-        app.get(NamedRoutes.rootPath(), context -> context.render("index.jte"));
+        app.get(NamedRoutes.rootPath(), UrlsController::index);
+
+        app.get(NamedRoutes.urlsPath(), UrlsController::show);
+
+        app.post(NamedRoutes.urlsPath(), UrlsController::create);
 
         return app;
     }

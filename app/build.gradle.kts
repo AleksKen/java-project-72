@@ -19,6 +19,7 @@ repositories {
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.assertj:assertj-core:3.26.3")
     //lombok
     compileOnly("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok:1.18.34")
@@ -29,7 +30,7 @@ dependencies {
     implementation("io.javalin:javalin-bundle:6.2.0")
     implementation("io.javalin:javalin-rendering:6.1.6")
     //БД
-    implementation("org.postgresql:postgresql:42.5.4")
+    implementation("org.postgresql:postgresql:42.7.3")
     implementation("com.h2database:h2:2.2.224")
     implementation("com.zaxxer:HikariCP:5.1.0")
 

@@ -27,7 +27,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="navbar-nav">
                 <a class="nav-link" href="${NamedRoutes.rootPath()}">Главная</a>
-                <a class="nav-link" href="/urls">Сайты</a>
+                <a class="nav-link" href="${NamedRoutes.urlsPath()}">Сайты</a>
             </div>
         </div>
     </div>

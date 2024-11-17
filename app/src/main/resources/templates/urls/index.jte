@@ -5,18 +5,34 @@
 @template.layout.page(
 page = page,
 content = @`
-    <h1>Urls List</h1>
-    <a href="${NamedRoutes.rootPath()}">New Car</a>
-    @if(page.getUrls().isEmpty())
-        <p>Urls list is empty</p>
-    @else
-        @for(var url : page.getUrls())
-            <div>
-                <h2>
-                    <a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a>
-                </h2>
+    <main class="flex-grow-1">
+        <section>
+            <div class="container-lg mt-5">
+                <h1>Сайты</h1>
+                <table class="table table-bordered table-hover mt-3">
+                    <thead>
+                    <tr>
+                        <th class="col-1">ID</th>
+                        <th>Имя</th>
+                        <th class="col-2">Последняя проверка</th>
+                        <th class="col-1">Код ответа</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if(!page.getUrls().isEmpty())
+                        @for(var url : page.getUrls())
+                            <tr>
+                                <td>${url.getId()}</td>
+                                <td><a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        @endfor
+                    @endif
+                    </tbody>
+                </table>
             </div>
-        @endfor
-    @endif
+        </section>
+    </main>
 `
 )

@@ -71,9 +71,11 @@ public class App {
 //            ctx.contentType("text/html; charset=utf-8");
 //        });
 
-        app.get(NamedRoutes.rootPath(), UrlsController::index);
+        app.get(NamedRoutes.rootPath(), UrlsController::build);
 
-        app.get(NamedRoutes.urlsPath(), UrlsController::show);
+        app.get(NamedRoutes.urlsPath(), UrlsController::index);
+
+        app.get(NamedRoutes.urlPath("{id}"), UrlsController::show);
 
         app.post(NamedRoutes.urlsPath(), UrlsController::create);
 

@@ -1,11 +1,13 @@
 package hexlet.code.controller;
 
 import hexlet.code.dto.MainPage;
+import hexlet.code.dto.urls.UrlPage;
 import hexlet.code.dto.urls.UrlsPage;
 import hexlet.code.model.Url;
 import hexlet.code.repository.UrlRepository;
 import hexlet.code.util.NamedRoutes;
 import io.javalin.http.Context;
+import io.javalin.http.NotFoundResponse;
 
 import java.net.URI;
 import java.sql.SQLException;
@@ -15,7 +17,7 @@ import java.util.Date;
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class UrlsController {
-    public static void index(Context context) {
+    public static void build(Context context) {
         String flash = context.consumeSessionAttribute("flash");
         String flashType = context.consumeSessionAttribute("flash-type");
         var page = new MainPage();
@@ -24,7 +26,7 @@ public class UrlsController {
         context.render("index.jte", model("page", page));
     }
 
-    public static void show(Context context) throws SQLException {
+    public static void index(Context context) throws SQLException {
         var urls = UrlRepository.getEntities();
         var page = new UrlsPage(urls);
         String flash = context.consumeSessionAttribute("flash");
@@ -32,6 +34,15 @@ public class UrlsController {
         page.setFlash(flash);
         page.setFlashType(flashType);
         context.render("urls/index.jte", model("page", page));
+    }
+
+
+    public static void show(Context context) throws SQLException {
+        var id = context.pathParamAsClass("id", Long.class).getOrDefault(-1L);
+        var url = UrlRepository.find(id)
+                .orElseThrow(() -> new NotFoundResponse("Entity with id = " + id + " not found"));
+        var page = new UrlPage(url);
+        context.render("urls/show.jte", model("page", page));
     }
 
     public static void create(Context context) {

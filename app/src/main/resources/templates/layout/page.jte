@@ -50,6 +50,6 @@
         </div>
     @endif
 @endif
-${content};
+${content}
 </body>
 </html>

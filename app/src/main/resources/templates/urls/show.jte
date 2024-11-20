@@ -4,6 +4,7 @@
 @param UrlPage page
 
 @template.layout.page(
+page = page,
 content = @`
     <main class="flex-grow-1">
 

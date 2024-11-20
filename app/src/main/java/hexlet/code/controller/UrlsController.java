@@ -41,7 +41,11 @@ public class UrlsController {
         var id = context.pathParamAsClass("id", Long.class).getOrDefault(-1L);
         var url = UrlRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("Entity with id = " + id + " not found"));
+        String flash = context.consumeSessionAttribute("flash");
+        String flashType = context.consumeSessionAttribute("flash-type");
         var page = new UrlPage(url);
+        page.setFlash(flash);
+        page.setFlashType(flashType);
         context.render("urls/show.jte", model("page", page));
     }
 

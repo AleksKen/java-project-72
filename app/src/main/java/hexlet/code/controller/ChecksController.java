@@ -40,8 +40,7 @@ public class ChecksController {
             context.sessionAttribute("flash", "Страница успешно проверена");
             context.sessionAttribute("flash-type", "success");
             context.redirect(NamedRoutes.urlPath(id));
-        }
-        catch (UnirestException | RuntimeException e) {
+        } catch (UnirestException | RuntimeException e) {
             context.sessionAttribute("flash", "Некорректный адрес");
             context.sessionAttribute("flash-type", "danger");
             context.redirect(NamedRoutes.urlPath(id));

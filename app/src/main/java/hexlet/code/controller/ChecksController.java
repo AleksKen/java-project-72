@@ -36,6 +36,6 @@ public class ChecksController {
         Timestamp timestamp = new Timestamp(currentDate.getTime());
         var urlCheck = new UrlCheck(code, title, h1, description, id, timestamp);
         UrlCheckRepository.save(urlCheck);
-        context.redirect(NamedRoutes.checksPath(id));
+        context.redirect(NamedRoutes.urlPath(id));
     }
 }

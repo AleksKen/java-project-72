@@ -32,33 +32,11 @@ public class UrlCheckRepository extends BaseRepository {
         }
     }
 
-
-    public static Optional<UrlCheck> find(Long id) throws SQLException {
-        var sql = "SELECT * FROM Url_checks WHERE id = ?";
+    public static List<UrlCheck> searchAll(Long urlId)  {
+        var sql = "SELECT * FROM Url_checks WHERE url_id = ? ORDER BY id";
         try (var connection = dataSource.getConnection();
              var statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, id);
-            var resUrlChecks = statement.executeQuery();
-            if (resUrlChecks.next()) {
-                var createdAt = resUrlChecks.getTimestamp("created_at");
-                var title = resUrlChecks.getString("title");
-                var h1 = resUrlChecks.getString("h1");
-                var description = resUrlChecks.getString("description");
-                var code = resUrlChecks.getInt("status_code");
-                var urlId = resUrlChecks.getLong("uri_id");
-
-                var urlCheck = new UrlCheck(code, title, h1, description, urlId, createdAt);
-                urlCheck.setId(id);
-                return Optional.of(urlCheck);
-            }
-            return Optional.empty();
-        }
-    }
-
-    public static List<UrlCheck> getEntities() throws SQLException {
-        var sql = "SELECT * FROM Url_checks";
-        try (var connection = dataSource.getConnection();
-             var statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, urlId);
             var resUrlChecks = statement.executeQuery();
             var urlChecks = new ArrayList<UrlCheck>();
             while (resUrlChecks.next()) {
@@ -67,13 +45,37 @@ public class UrlCheckRepository extends BaseRepository {
                 var h1 = resUrlChecks.getString("h1");
                 var description = resUrlChecks.getString("description");
                 var code = resUrlChecks.getInt("status_code");
-                var urlId = resUrlChecks.getLong("uri_id");
                 var id = resUrlChecks.getLong("id");
                 var urlCheck = new UrlCheck(code, title, h1, description, urlId, createdAt);
                 urlCheck.setId(id);
                 urlChecks.add(urlCheck);
             }
             return urlChecks;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Optional<UrlCheck> searchLast(Long urlId)  {
+        var sql = "SELECT * FROM Url_checks WHERE url_id = ? ORDER BY created_at DESC";
+        try (var connection = dataSource.getConnection();
+             var statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, urlId);
+            var resUrlChecks = statement.executeQuery();
+            if (resUrlChecks.next()) {
+                var createdAt = resUrlChecks.getTimestamp("created_at");
+                var title = resUrlChecks.getString("title");
+                var h1 = resUrlChecks.getString("h1");
+                var description = resUrlChecks.getString("description");
+                var code = resUrlChecks.getInt("status_code");
+                var id = resUrlChecks.getLong("id");
+                var urlCheck = new UrlCheck(code, title, h1, description, urlId, createdAt);
+                urlCheck.setId(id);
+                return Optional.of(urlCheck);
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -1,3 +1,4 @@
+@import hexlet.code.repository.UrlCheckRepository
 @import hexlet.code.util.NamedRoutes
 @import hexlet.code.dto.urls.UrlsPage
 @param UrlsPage page
@@ -24,8 +25,16 @@ content = @`
                             <tr>
                                 <td>${url.getId()}</td>
                                 <td><a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a></td>
-                                <td></td>
-                                <td></td>
+                                <td>
+                                    @if(!UrlCheckRepository.searchLast(url.getId()).isEmpty())
+                                        ${UrlCheckRepository.searchLast(url.getId()).get().getCreatedAt().toString()}
+                                    @endif
+                                 </td>
+                                <td>
+                                    @if(!UrlCheckRepository.searchLast(url.getId()).isEmpty())
+                                        ${UrlCheckRepository.searchLast(url.getId()).get().getStatusCode()}
+                                    @endif
+                                </td>
                             </tr>
                         @endfor
                     @endif

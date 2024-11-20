@@ -33,7 +33,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.7.3")
     implementation("com.h2database:h2:2.2.224")
     implementation("com.zaxxer:HikariCP:5.1.0")
-    //Unirest для запросов
+    //Для запросов
     implementation("com.mashape.unirest:unirest-java:1.4.9")
     implementation("org.jsoup:jsoup:1.7.2")
 

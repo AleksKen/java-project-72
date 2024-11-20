@@ -1,4 +1,5 @@
 @import hexlet.code.dto.urls.UrlPage
+@import hexlet.code.repository.UrlCheckRepository
 @import hexlet.code.util.NamedRoutes
 @param UrlPage page
 
@@ -42,23 +43,32 @@ content = @`
                         <th class="col-2">Дата проверки</th>
                     </tr>
                     </thead>
+                    @if(!UrlCheckRepository.searchAll(page.getUrl().getId()).isEmpty())
                     <tbody>
-
+                    @for(var check : UrlCheckRepository.searchAll(page.getUrl().getId()))
                     <tr>
                         <td>
+                            ${check.getId()}
                         </td>
                         <td>
+                            ${check.getStatusCode()}
                         </td>
                         <td>
+                            ${check.getTitle()}
                         </td>
                         <td>
+                            ${check.getH1()}
                         </td>
                         <td>
+                            ${check.getDescription()}
                         </td>
                         <td>
+                            ${check.getCreatedAt().toString()}
                         </td>
                     </tr>
+                    @endfor
                     </tbody>
+                    @endif
                 </table>
             </div>
         </section>

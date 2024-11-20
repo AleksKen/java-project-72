@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
+import hexlet.code.controller.ChecksController;
 import hexlet.code.controller.UrlsController;
 import hexlet.code.repository.BaseRepository;
 import hexlet.code.util.NamedRoutes;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
@@ -72,6 +74,8 @@ public class App {
         app.get(NamedRoutes.urlsPath(), UrlsController::index);
 
         app.get(NamedRoutes.urlPath("{id}"), UrlsController::show);
+
+        app.post(NamedRoutes.checksPath("{id}"), ChecksController::create);
 
         app.post(NamedRoutes.urlsPath(), UrlsController::create);
 

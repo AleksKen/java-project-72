@@ -21,7 +21,7 @@ public class ChecksController {
         var url = UrlRepository.find(id);
         var jsonResponse = Unirest.get(url.get().getName()).asString();
         var code = jsonResponse.getStatus();
-        var body= jsonResponse.getBody();
+        var body = jsonResponse.getBody();
 
         Document doc = Jsoup.parse(body);
         String title = doc.title();

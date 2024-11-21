@@ -83,16 +83,17 @@ public class AppTests {
     @Test
     void testUrlCheck() throws Exception {
         JavalinTest.test(app, (server, client) -> {
-            var requestBody = "url=https://example.com";
-            client.post(NamedRoutes.urlsPath(), requestBody);
-
-            var urlsResponse = client.get(NamedRoutes.urlsPath());
-            assertThat(urlsResponse.code()).isEqualTo(200);
-
             String htmlContent = new String(Files.readAllBytes(
                     Paths.get("src/test/resources/hexlet/code/example.html")));
 
             mockWebServer.enqueue(new MockResponse().setBody(htmlContent).setResponseCode(200));
+
+            String baseUrl = mockWebServer.url("/").toString();
+
+            client.post(NamedRoutes.urlsPath(), "url=" + baseUrl);
+
+            var urlsResponse = client.get(NamedRoutes.urlsPath());
+            assertThat(urlsResponse.code()).isEqualTo(200);
 
             var urlCheckResponse = client.post(NamedRoutes.checksPath(1L));
             assertThat(urlCheckResponse.code()).isEqualTo(200);

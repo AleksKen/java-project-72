@@ -36,6 +36,8 @@ dependencies {
     //Для запросов
     implementation("com.mashape.unirest:unirest-java:1.4.9")
     implementation("org.jsoup:jsoup:1.7.2")
+    // MockWebServer
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
 
 }
 

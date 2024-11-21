@@ -25,7 +25,7 @@ public class AppTests {
     private static MockWebServer mockWebServer;
 
     @BeforeEach
-    public void setUp() throws SQLException, IOException {
+    public final void setUp() throws SQLException, IOException {
         mockWebServer = new MockWebServer();
         mockWebServer.start();
         app = App.getApp();

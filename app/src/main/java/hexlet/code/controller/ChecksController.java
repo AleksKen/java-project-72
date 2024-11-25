@@ -11,8 +11,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Date;
 
 public class ChecksController {
 
@@ -33,9 +31,7 @@ public class ChecksController {
             }
             String description = doc.select("meta[name=description]").attr("content");
 
-            Date currentDate = new Date();
-            Timestamp timestamp = new Timestamp(currentDate.getTime());
-            var urlCheck = new UrlCheck(code, title, h1, description, id, timestamp);
+            var urlCheck = new UrlCheck(code, title, h1, description, id);
             UrlCheckRepository.save(urlCheck);
             context.sessionAttribute("flash", "Страница успешно проверена");
             context.sessionAttribute("flash-type", "success");

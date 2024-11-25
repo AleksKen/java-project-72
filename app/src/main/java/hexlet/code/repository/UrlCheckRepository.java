@@ -4,7 +4,9 @@ import hexlet.code.model.UrlCheck;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +22,9 @@ public class UrlCheckRepository extends BaseRepository {
             statement.setString(3, urlCheck.getH1());
             statement.setString(4, urlCheck.getTitle());
             statement.setString(5, urlCheck.getDescription());
-            statement.setTimestamp(6, urlCheck.getCreatedAt());
+            Date currentDate = new Date();
+            Timestamp timestamp = new Timestamp(currentDate.getTime());
+            statement.setTimestamp(6, timestamp);
             statement.executeUpdate();
 
             var generatedKeys = statement.getGeneratedKeys();

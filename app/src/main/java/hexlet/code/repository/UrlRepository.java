@@ -4,7 +4,9 @@ import hexlet.code.model.Url;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +17,9 @@ public class UrlRepository extends BaseRepository {
         try (var connection = dataSource.getConnection();
              var statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, url.getName());
-            statement.setTimestamp(2, url.getCreatedAt());
+            Date currentDate = new Date();
+            Timestamp timestamp = new Timestamp(currentDate.getTime());
+            statement.setTimestamp(2, timestamp);
             statement.executeUpdate();
 
             var generatedKeys = statement.getGeneratedKeys();

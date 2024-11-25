@@ -4,6 +4,8 @@ import hexlet.code.dto.MainPage;
 import hexlet.code.dto.urls.UrlPage;
 import hexlet.code.dto.urls.UrlsPage;
 import hexlet.code.model.Url;
+import hexlet.code.model.UrlCheck;
+import hexlet.code.repository.UrlCheckRepository;
 import hexlet.code.repository.UrlRepository;
 import hexlet.code.util.NamedRoutes;
 import io.javalin.http.Context;
@@ -11,8 +13,8 @@ import io.javalin.http.NotFoundResponse;
 
 import java.net.URI;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Optional;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
@@ -28,7 +30,13 @@ public class UrlsController {
 
     public static void index(Context context) throws SQLException {
         var urls = UrlRepository.getEntities();
-        var page = new UrlsPage(urls);
+        var latestChecks = new LinkedHashMap<Long, Optional<UrlCheck>>();
+        for (var url : urls) {
+            var key = url.getId();
+            latestChecks.put(key, UrlCheckRepository.searchLast(key));
+        }
+
+        var page = new UrlsPage(urls, latestChecks);
         String flash = context.consumeSessionAttribute("flash");
         String flashType = context.consumeSessionAttribute("flash-type");
         page.setFlash(flash);
@@ -43,7 +51,8 @@ public class UrlsController {
                 .orElseThrow(() -> new NotFoundResponse("Entity with id = " + id + " not found"));
         String flash = context.consumeSessionAttribute("flash");
         String flashType = context.consumeSessionAttribute("flash-type");
-        var page = new UrlPage(url);
+        var checks = UrlCheckRepository.searchAll(id);
+        var page = new UrlPage(url, checks);
         page.setFlash(flash);
         page.setFlashType(flashType);
         context.render("urls/show.jte", model("page", page));
@@ -63,9 +72,7 @@ public class UrlsController {
                 name = String.format("%s://%s:%d", protocol, host, port);
             }
             if (UrlRepository.search(name).isEmpty()) {
-                Date currentDate = new Date();
-                Timestamp timestamp = new Timestamp(currentDate.getTime());
-                UrlRepository.save(new Url(name, timestamp));
+                UrlRepository.save(new Url(name));
             } else {
                 throw new SQLException("Страница уже существует");
             }

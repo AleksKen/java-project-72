@@ -8,7 +8,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.LinkedHashMap;
+
 
 public class UrlCheckRepository extends BaseRepository {
 
@@ -60,26 +62,24 @@ public class UrlCheckRepository extends BaseRepository {
         }
     }
 
-    public static Optional<UrlCheck> searchLast(Long urlId)  {
-        var sql = "SELECT * FROM Url_checks WHERE url_id = ? ORDER BY created_at DESC";
+    public static Map<Long, UrlCheck> getLastChecks() throws SQLException {
+        var sql = "SELECT DISTINCT ON (url_id) * FROM url_checks ORDER BY url_id DESC, id DESC";
         try (var connection = dataSource.getConnection();
              var statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, urlId);
-            var resUrlChecks = statement.executeQuery();
-            if (resUrlChecks.next()) {
-                var createdAt = resUrlChecks.getTimestamp("created_at");
-                var title = resUrlChecks.getString("title");
-                var h1 = resUrlChecks.getString("h1");
-                var description = resUrlChecks.getString("description");
-                var code = resUrlChecks.getInt("status_code");
-                var id = resUrlChecks.getLong("id");
-                var urlCheck = new UrlCheck(code, title, h1, description, urlId, createdAt);
-                urlCheck.setId(id);
-                return Optional.of(urlCheck);
+            var resUrls = statement.executeQuery();
+            var urlsLastCheck = new LinkedHashMap<Long, UrlCheck>();
+            while (resUrls.next()) {
+                var urlId = resUrls.getLong("url_id");
+                var statusCode = resUrls.getInt("status_code");
+                var h1 = resUrls.getString("h1");
+                var title = resUrls.getString("title");
+                var description = resUrls.getString("description");
+                var createdAt = resUrls.getTimestamp("created_at");
+                var urlCheck = new UrlCheck(statusCode, title, h1, description, urlId, createdAt);
+                urlCheck.setUrlId(urlId);
+                urlsLastCheck.put(urlId, urlCheck);
             }
-            return Optional.empty();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            return urlsLastCheck;
         }
     }
 }

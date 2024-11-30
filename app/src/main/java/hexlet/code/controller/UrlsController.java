@@ -4,7 +4,6 @@ import hexlet.code.dto.MainPage;
 import hexlet.code.dto.urls.UrlPage;
 import hexlet.code.dto.urls.UrlsPage;
 import hexlet.code.model.Url;
-import hexlet.code.model.UrlCheck;
 import hexlet.code.repository.UrlCheckRepository;
 import hexlet.code.repository.UrlRepository;
 import hexlet.code.util.NamedRoutes;
@@ -13,8 +12,6 @@ import io.javalin.http.NotFoundResponse;
 
 import java.net.URI;
 import java.sql.SQLException;
-import java.util.LinkedHashMap;
-import java.util.Optional;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
@@ -30,12 +27,7 @@ public class UrlsController {
 
     public static void index(Context context) throws SQLException {
         var urls = UrlRepository.getEntities();
-        var latestChecks = new LinkedHashMap<Long, Optional<UrlCheck>>();
-        for (var url : urls) {
-            var key = url.getId();
-            latestChecks.put(key, UrlCheckRepository.searchLast(key));
-        }
-
+        var latestChecks = UrlCheckRepository.getLastChecks();
         var page = new UrlsPage(urls, latestChecks);
         String flash = context.consumeSessionAttribute("flash");
         String flashType = context.consumeSessionAttribute("flash-type");
